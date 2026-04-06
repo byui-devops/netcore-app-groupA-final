@@ -1,0 +1,11 @@
+[
+  {
+    "Name": "Web MVC",
+    "Projects": [
+      {
+        "Path": "src\\NetCoreContosoUniversityApp.Web.MVC\\NetCoreContosoUniversityApp.Web.MVC.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

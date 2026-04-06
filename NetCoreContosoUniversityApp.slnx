@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="src/NetCoreContosoUniversityApp.Data/NetCoreContosoUniversityApp.Data.csproj" />
+  <Project Path="src/NetCoreContosoUniversityApp.Repository/NetCoreContosoUniversityApp.Repository.csproj" />
+  <Project Path="src/NetCoreContosoUniversityApp.Service/NetCoreContosoUniversityApp.Service.csproj" />
+  <Project Path="src/NetCoreContosoUniversityApp.Web.MVC/NetCoreContosoUniversityApp.Web.MVC.csproj" />
+</Solution>
