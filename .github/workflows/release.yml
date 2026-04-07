@@ -33,16 +33,12 @@ jobs:
         working-directory: ./terraform
         run: terraform init
 
-      - name: Import existing resources
+      - name: Import existing security group
         working-directory: ./terraform
         run: |
           SG_ID=$(aws ec2 describe-security-groups --filters "Name=group-name,Values=contoso-university-sg" --query 'SecurityGroups[0].GroupId' --output text 2>/dev/null || echo "None")
           if [ "$SG_ID" != "None" ] && [ "$SG_ID" != "" ] && [ "$SG_ID" != "null" ]; then
             terraform import aws_security_group.app_sg $SG_ID || true
-          fi
-          INSTANCE_ID=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=contoso-university-app" "Name=instance-state-name,Values=running,stopped" --query 'Reservations[0].Instances[0].InstanceId' --output text 2>/dev/null || echo "None")
-          if [ "$INSTANCE_ID" != "None" ] && [ "$INSTANCE_ID" != "" ] && [ "$INSTANCE_ID" != "null" ]; then
-            terraform import aws_instance.app_server $INSTANCE_ID || true
           fi
 
       - name: Terraform Plan
@@ -55,4 +51,6 @@ jobs:
 
       - name: Output EC2 URL
         working-directory: ./terraform
-        run: terraform output -raw ec2_public_url || echo "No output available"
+        run: |
+          echo "EC2 Public DNS: $(terraform output -raw app_url 2>/dev/null || echo 'not available')"
+          echo "EC2 Public IP: $(terraform output -raw ec2_public_ip 2>/dev/null || echo 'not available')"
