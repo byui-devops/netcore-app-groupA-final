@@ -1,6 +1,6 @@
 # ITM 350 Final Project Report
 
-## Group A | Ethan Trent | April 2026
+## Group A | Ethan Trent | April 2026 | Carlos Mercado
 
 ---
 
