@@ -21,6 +21,8 @@
 
 ---
 
+![class-cover](ITM-350.png)
+
 # ITM350 - IT Management and DevOps
 
 - Winter 2026
