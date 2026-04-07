@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\NetCoreContosoUniversityApp.Service\NetCoreContosoUniversityApp.Service.csproj" />
+    <ProjectReference Include="..\..\NetCoreContosoUniversityApp.Service\NetCoreContosoUniversityApp.Service.csproj" />
   </ItemGroup>
 
 </Project>
