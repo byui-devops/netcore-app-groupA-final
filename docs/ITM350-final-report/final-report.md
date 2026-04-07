@@ -1,4 +1,5 @@
 # ITM 350 Final Project Report
+
 ## Group A | Ethan Trent | April 2026
 
 ---
@@ -24,7 +25,7 @@ The DevOps challenge this project solved was automating the full lifecycle from 
 
 ## 2. Live Application URL
 
-**EC2 Endpoint:** http://ec2-52-23-164-222.compute-1.amazonaws.com
+**EC2 Endpoint:** <http://ec2-52-23-164-222.compute-1.amazonaws.com>
 
 The application is deployed to AWS EC2 (us-east-1) via automated Terraform provisioning triggered by the Release to AWS GitHub Actions pipeline. The application runs as two Docker containers:
 
@@ -43,26 +44,28 @@ The application is successfully running and accessible. The screenshot below sho
 
 **Application Pages Verified:**
 
-- Home Page: http://ec2-52-23-164-222.compute-1.amazonaws.com/
-- Students List: http://ec2-52-23-164-222.compute-1.amazonaws.com/ContosoUniversity/List (shows seeded student data)
+- Home Page: <http://ec2-52-23-164-222.compute-1.amazonaws.com/>
+- Students List: <http://ec2-52-23-164-222.compute-1.amazonaws.com/ContosoUniversity/List> (shows seeded student data)
 - Navigation: Contoso University dropdown with Students, Statistics, About
 
 The Students page successfully loads seeded data from the SQL Server database including student names, enrollment dates, and government IDs — confirming the full database connection is working.
 
+![Student list](.\app-list-screenshot.png)
+
 **Build & Release Pipeline Proof:**
 
-- Build Pipeline: https://github.com/byui-devops/netcore-app-groupA-final/actions?query=workflow%3A%22Build%2C+Test+%26+Push%22
-- Release Pipeline: https://github.com/byui-devops/netcore-app-groupA-final/actions?query=workflow%3A%22Release+to+AWS%22
+- Build Pipeline: <https://github.com/byui-devops/netcore-app-groupA-final/actions?query=workflow%3A%22Build%2C+Test+%26+Push%22>
+- Release Pipeline: <https://github.com/byui-devops/netcore-app-groupA-final/actions?query=workflow%3A%22Release+to+AWS%22>
 
 ---
 
 ## 4. Codebase URL
 
-**GitHub Repository:** https://github.com/byui-devops/netcore-app-groupA-final
+**GitHub Repository:** <https://github.com/byui-devops/netcore-app-groupA-final>
 
 ### Repository Structure
 
-```
+```terminal
 netcore-app-groupA-final/
 ├── .github/
 │   └── workflows/
@@ -95,7 +98,7 @@ All changes to `main` were made through **feature branches and pull requests**:
 
 ## 5. Docker Hub Image URL
 
-**Docker Hub:** https://hub.docker.com/r/ethantrent/netcore-contoso-university
+**Docker Hub:** <https://hub.docker.com/r/ethantrent/netcore-contoso-university>
 
 The Docker image is automatically built and pushed to Docker Hub on every successful merge to `main`. The image is publicly accessible and tagged `latest`.
 
@@ -113,15 +116,15 @@ The Dockerfile uses a **multi-stage build**:
 **Workflow:** `.github/workflows/build.yml`  
 **Trigger:** Push to any branch, or pull request targeting `main`
 
-| Step | Description |
-|---|---|
-| Checkout | Pulls source from GitHub |
-| Setup .NET | Configures .NET 10.0 SDK |
-| Restore | Runs `dotnet restore` |
-| Build | Compiles with `dotnet build` |
-| Unit Tests | Runs `NetCoreContosoUniversityApp.Testing.Unit.Services` |
-| Integration Tests | Runs 5 HTTP route tests in `NetCoreContosoUniversityApp.Testing.Integration` |
-| Docker Build & Push | Builds image and pushes to Docker Hub (main branch only) |
+| Step                | Description                                                                  |
+| ------------------- | ---------------------------------------------------------------------------- |
+| Checkout            | Pulls source from GitHub                                                     |
+| Setup .NET          | Configures .NET 10.0 SDK                                                     |
+| Restore             | Runs `dotnet restore`                                                        |
+| Build               | Compiles with `dotnet build`                                                 |
+| Unit Tests          | Runs `NetCoreContosoUniversityApp.Testing.Unit.Services`                     |
+| Integration Tests   | Runs 5 HTTP route tests in `NetCoreContosoUniversityApp.Testing.Integration` |
+| Docker Build & Push | Builds image and pushes to Docker Hub (main branch only)                     |
 
 ---
 
@@ -132,13 +135,13 @@ The Dockerfile uses a **multi-stage build**:
 
 All AWS infrastructure is defined in the `terraform/` directory and provisioned automatically — **no manual AWS login required**.
 
-| Step | Description |
-|---|---|
-| Configure AWS Credentials | Uses GitHub Secrets (no login required) |
-| Terraform Init | Initializes Terraform providers |
-| Import existing security group | Idempotent: handles pre-existing SG |
-| Terraform Plan | Computes required infrastructure changes |
-| Terraform Apply | Provisions EC2 + security group, runs Docker via user_data |
+| Step                           | Description                                                |
+| ------------------------------ | ---------------------------------------------------------- |
+| Configure AWS Credentials      | Uses GitHub Secrets (no login required)                    |
+| Terraform Init                 | Initializes Terraform providers                            |
+| Import existing security group | Idempotent: handles pre-existing SG                        |
+| Terraform Plan                 | Computes required infrastructure changes                   |
+| Terraform Apply                | Provisions EC2 + security group, runs Docker via user_data |
 
 **Terraform Resources:**
 
@@ -178,17 +181,17 @@ Defining the entire AWS environment in Terraform (EC2 instance type, security gr
 
 ## Summary
 
-| Requirement | Status | Evidence |
-|---|---|---|
-| GitHub Repository | ✅ Complete | https://github.com/byui-devops/netcore-app-groupA-final |
-| Unit Tests | ✅ Complete | `src/Testing/NetCoreContosoUniversityApp.Testing.Unit.Services/` — xUnit |
-| Integration Tests (5) | ✅ Complete | `src/Testing/NetCoreContosoUniversityApp.Testing.Integration/` |
-| Docker Image on Docker Hub | ✅ Complete | `ethantrent/netcore-contoso-university:latest` |
-| Build Pipeline (CI) | ✅ Complete | `.github/workflows/build.yml` — 19+ runs |
-| Release Pipeline (CD) | ✅ Complete | `.github/workflows/release.yml` — auto-triggered |
-| IaC in Release Pipeline | ✅ Complete | Terraform provisions EC2 + SG on AWS |
-| No Manual AWS Login | ✅ Complete | All credentials stored as GitHub Secrets |
-| Feature Branches & PRs | ✅ Complete | PR #3 and PR #4 merged to main |
-| Application Running on EC2 | ✅ Complete | http://ec2-52-23-164-222.compute-1.amazonaws.com |
-| App Screenshot | ✅ Complete | `docs/app-screenshot.png` |
-| Final Report | ✅ Complete | This document |
+| Requirement                | Status      | Evidence                                                                 |
+| -------------------------- | ----------- | ------------------------------------------------------------------------ |
+| GitHub Repository          | ✅ Complete | <https://github.com/byui-devops/netcore-app-groupA-final>                |
+| Unit Tests                 | ✅ Complete | `src/Testing/NetCoreContosoUniversityApp.Testing.Unit.Services/` — xUnit |
+| Integration Tests (5)      | ✅ Complete | `src/Testing/NetCoreContosoUniversityApp.Testing.Integration/`           |
+| Docker Image on Docker Hub | ✅ Complete | `ethantrent/netcore-contoso-university:latest`                           |
+| Build Pipeline (CI)        | ✅ Complete | `.github/workflows/build.yml` — 19+ runs                                 |
+| Release Pipeline (CD)      | ✅ Complete | `.github/workflows/release.yml` — auto-triggered                         |
+| IaC in Release Pipeline    | ✅ Complete | Terraform provisions EC2 + SG on AWS                                     |
+| No Manual AWS Login        | ✅ Complete | All credentials stored as GitHub Secrets                                 |
+| Feature Branches & PRs     | ✅ Complete | PR #3 and PR #4 merged to main                                           |
+| Application Running on EC2 | ✅ Complete | <http://ec2-52-23-164-222.compute-1.amazonaws.com>                       |
+| App Screenshot             | ✅ Complete | `docs/app-screenshot.png`                                                |
+| Final Report               | ✅ Complete | This document                                                            |

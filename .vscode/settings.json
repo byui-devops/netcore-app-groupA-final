@@ -1,0 +1,15 @@
+{
+	"editor.tokenColorCustomizations": {
+		"comments": "#6d6b6b",
+		"textMateRules": [
+			{
+				"scope": [
+					"keyword"
+				],
+				"settings": {
+					"foreground": "#0e68c2"
+				}
+			}
+		]
+	}
+}
