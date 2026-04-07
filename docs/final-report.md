@@ -24,28 +24,33 @@ The DevOps challenge this project solved was automating the full lifecycle from 
 
 ## 2. Live Application URL
 
-**EC2 Endpoint:** http://ec2-54-210-180-179.compute-1.amazonaws.com
+**EC2 Endpoint:** http://ec2-52-23-164-222.compute-1.amazonaws.com
 
 The application is deployed to AWS EC2 (us-east-1) via automated Terraform provisioning triggered by the Release to AWS GitHub Actions pipeline. The application runs as two Docker containers:
+
 - `mcr.microsoft.com/mssql/server:2022-latest` — SQL Server database
 - `ethantrent/netcore-contoso-university:latest` — ASP.NET Core MVC web app
+
+> **Note:** Because `user_data_replace_on_change = true` is set in Terraform, EC2 instances are replaced on each pipeline run and receive a new public DNS. The URL above reflects the most recent successful deployment.
 
 ---
 
 ## 3. Screenshot of Application Running
 
-The application is successfully running and accessible at http://ec2-54-210-180-179.compute-1.amazonaws.com
+The application is successfully running and accessible. The screenshot below shows the Students management page with live seeded data loaded from the SQL Server database — confirming the full stack (web app + database + Docker networking) is operational.
 
-![Application Home Page](https://raw.githubusercontent.com/byui-devops/netcore-app-groupA-final/main/ITM-350.png)
+![Contoso University Students Page running on AWS EC2](./app-screenshot.png)
 
 **Application Pages Verified:**
-- ✅ Home Page — http://ec2-54-210-180-179.compute-1.amazonaws.com/
-- ✅ Students List — http://ec2-54-210-180-179.compute-1.amazonaws.com/ContosoUniversity/List (shows seeded student data)
-- ✅ Navigation — Contoso University dropdown with Students, Statistics, About
+
+- Home Page: http://ec2-52-23-164-222.compute-1.amazonaws.com/
+- Students List: http://ec2-52-23-164-222.compute-1.amazonaws.com/ContosoUniversity/List (shows seeded student data)
+- Navigation: Contoso University dropdown with Students, Statistics, About
 
 The Students page successfully loads seeded data from the SQL Server database including student names, enrollment dates, and government IDs — confirming the full database connection is working.
 
 **Build & Release Pipeline Proof:**
+
 - Build Pipeline: https://github.com/byui-devops/netcore-app-groupA-final/actions?query=workflow%3A%22Build%2C+Test+%26+Push%22
 - Release Pipeline: https://github.com/byui-devops/netcore-app-groupA-final/actions?query=workflow%3A%22Release+to+AWS%22
 
@@ -61,22 +66,28 @@ The Students page successfully loads seeded data from the SQL Server database in
 netcore-app-groupA-final/
 ├── .github/
 │   └── workflows/
-│       ├── build.yml          # CI: Build, test, push to Docker Hub
-│       └── release.yml        # CD: Terraform deploy to AWS EC2
+│       ├── build.yml     # CI: Build, test, push to Docker Hub
+│       └── release.yml   # CD: Terraform deploy to AWS EC2
 ├── docs/
-│   └── final-report.md        # This report
+│   ├── app-screenshot.png              # Screenshot of running application
+│   └── final-report.md                 # This report
 ├── src/
-│   ├── NetCoreContosoUniversityApp.Web.MVC/     # Main ASP.NET Core app
-│   ├── NetCoreContosoUniversityApp.Tests/       # Unit tests (xUnit)
-│   └── NetCoreContosoUniversityApp.IntegrationTests/  # Integration tests
+│   ├── NetCoreContosoUniversityApp.Web.MVC/                           # Main ASP.NET Core app
+│   ├── NetCoreContosoUniversityApp.Data/                              # EF Core data layer
+│   ├── NetCoreContosoUniversityApp.Repositories/                      # Repository pattern
+│   ├── NetCoreContosoUniversityApp.Services/                          # Business logic layer
+│   └── Testing/
+│       ├── NetCoreContosoUniversityApp.Testing.Unit.Services/         # Unit tests (xUnit)
+│       └── NetCoreContosoUniversityApp.Testing.Integration/           # Integration tests (5 HTTP route tests)
 ├── terraform/
-│   ├── main.tf                # EC2 + security group + Docker IaC
-│   ├── variables.tf           # Input variables
-│   └── outputs.tf             # EC2 URL outputs
-└── Dockerfile                 # Multi-stage build
+│   ├── main.tf           # EC2 + security group + Docker IaC
+│   ├── variables.tf      # Input variables
+│   └── outputs.tf        # EC2 URL outputs
+└── Dockerfile            # Multi-stage build
 ```
 
 All changes to `main` were made through **feature branches and pull requests**:
+
 - `feature/devops-pipeline` → PR #3 (Dockerfile, CI/CD, Terraform)
 - `feature/integration-tests` → PR #4 (Integration test project, 5 HTTP tests)
 
@@ -91,6 +102,7 @@ The Docker image is automatically built and pushed to Docker Hub on every succes
 **Image:** `ethantrent/netcore-contoso-university:latest`
 
 The Dockerfile uses a **multi-stage build**:
+
 1. **Build stage** — Uses `mcr.microsoft.com/dotnet/sdk:10.0` to compile and publish the app
 2. **Runtime stage** — Uses `mcr.microsoft.com/dotnet/aspnet:10.0` as a lightweight runtime image
 
@@ -98,30 +110,30 @@ The Dockerfile uses a **multi-stage build**:
 
 ## 6. Build Pipeline
 
-**Workflow:** `.github/workflows/build.yml`
+**Workflow:** `.github/workflows/build.yml`  
 **Trigger:** Push to any branch, or pull request targeting `main`
 
 | Step | Description |
-|------|-------------|
+|---|---|
 | Checkout | Pulls source from GitHub |
 | Setup .NET | Configures .NET 10.0 SDK |
 | Restore | Runs `dotnet restore` |
 | Build | Compiles with `dotnet build` |
-| Unit Tests | Runs `NetCoreContosoUniversityApp.Tests` |
-| Integration Tests | Runs 5 HTTP route tests in `NetCoreContosoUniversityApp.IntegrationTests` |
+| Unit Tests | Runs `NetCoreContosoUniversityApp.Testing.Unit.Services` |
+| Integration Tests | Runs 5 HTTP route tests in `NetCoreContosoUniversityApp.Testing.Integration` |
 | Docker Build & Push | Builds image and pushes to Docker Hub (main branch only) |
 
 ---
 
 ## 7. Release Pipeline with Infrastructure as Code
 
-**Workflow:** `.github/workflows/release.yml`
+**Workflow:** `.github/workflows/release.yml`  
 **Trigger:** Automatically after Build pipeline succeeds on `main`
 
 All AWS infrastructure is defined in the `terraform/` directory and provisioned automatically — **no manual AWS login required**.
 
 | Step | Description |
-|------|-------------|
+|---|---|
 | Configure AWS Credentials | Uses GitHub Secrets (no login required) |
 | Terraform Init | Initializes Terraform providers |
 | Import existing security group | Idempotent: handles pre-existing SG |
@@ -129,6 +141,7 @@ All AWS infrastructure is defined in the `terraform/` directory and provisioned 
 | Terraform Apply | Provisions EC2 + security group, runs Docker via user_data |
 
 **Terraform Resources:**
+
 - `aws_security_group` — Opens port 80 (HTTP) and 22 (SSH)
 - `aws_instance` — t2.medium EC2, runs SQL Server + app containers from Docker Hub images on boot
 - `user_data_replace_on_change = true` — Forces EC2 replacement on any configuration change
@@ -138,21 +151,27 @@ All AWS infrastructure is defined in the `terraform/` directory and provisioned 
 ## 8. Lessons Learned
 
 ### 1. Terraform State Management in CI/CD is Complex
+
 Running Terraform in a stateless CI environment (GitHub Actions) without a remote backend means state is never persisted between runs. This caused `InvalidGroup.Duplicate` errors when the security group already existed from a previous pipeline run. The fix was to use `terraform import` to bring existing resources into state before applying. Going forward, using an S3 backend for remote state would be the production-correct solution.
 
 ### 2. EC2 user_data Only Runs Once at Launch
+
 AWS EC2 user_data scripts only execute on the first boot of an instance. When Terraform imported an existing EC2 instance and made no changes, the Docker container from user_data was never re-run. Adding `user_data_replace_on_change = true` to the Terraform resource forces Terraform to destroy and recreate the instance when user_data changes — ensuring a fresh, clean deployment every time.
 
 ### 3. Applications with Database Dependencies Need Sidecar Containers
+
 The ASP.NET Core application required a SQL Server database to start. Without a database, the app threw an `InvalidOperationException` at startup and refused to serve any requests. The solution was to run two Docker containers — SQL Server and the app — on the same Docker network inside the EC2 instance, passing the connection string as an environment variable. This is the foundation of Docker Compose patterns in production.
 
 ### 4. Branch Protection Requires Organization Admin Permissions
+
 Setting up branch protection rules (requiring pull requests before merging to `main`) requires organization admin privileges. As a repository contributor rather than org admin, this setting was not configurable through the UI. In a professional environment, requesting admin rights or working with the org owner to enable protection rules would be the first step in a DevOps engagement.
 
 ### 5. Automated Testing in CI Catches Regressions Early
+
 Integrating both unit and integration tests directly into the build pipeline (running on every push and PR) provided immediate feedback when changes broke application routes. The 5 HTTP integration tests covering all major routes (`/`, `/Students`, `/Courses`, `/Departments`, `/Instructors`) gave confidence that the deployed Docker image served all expected endpoints before it was ever pushed to production.
 
 ### 6. Infrastructure as Code Enables Reproducible Deployments
+
 Defining the entire AWS environment in Terraform (EC2 instance type, security group rules, AMI selection, Docker startup) meant the infrastructure could be recreated from scratch in any AWS account by simply updating secrets and re-running the pipeline. This is the core DevOps principle of treating infrastructure like software — versioned, reviewed, and automated.
 
 ---
@@ -162,13 +181,14 @@ Defining the entire AWS environment in Terraform (EC2 instance type, security gr
 | Requirement | Status | Evidence |
 |---|---|---|
 | GitHub Repository | ✅ Complete | https://github.com/byui-devops/netcore-app-groupA-final |
-| Unit Tests | ✅ Complete | `src/NetCoreContosoUniversityApp.Tests/` — xUnit |
-| Integration Tests (5) | ✅ Complete | `src/NetCoreContosoUniversityApp.IntegrationTests/` |
+| Unit Tests | ✅ Complete | `src/Testing/NetCoreContosoUniversityApp.Testing.Unit.Services/` — xUnit |
+| Integration Tests (5) | ✅ Complete | `src/Testing/NetCoreContosoUniversityApp.Testing.Integration/` |
 | Docker Image on Docker Hub | ✅ Complete | `ethantrent/netcore-contoso-university:latest` |
 | Build Pipeline (CI) | ✅ Complete | `.github/workflows/build.yml` — 19+ runs |
 | Release Pipeline (CD) | ✅ Complete | `.github/workflows/release.yml` — auto-triggered |
 | IaC in Release Pipeline | ✅ Complete | Terraform provisions EC2 + SG on AWS |
 | No Manual AWS Login | ✅ Complete | All credentials stored as GitHub Secrets |
 | Feature Branches & PRs | ✅ Complete | PR #3 and PR #4 merged to main |
-| Application Running on EC2 | ✅ Complete | http://ec2-54-210-180-179.compute-1.amazonaws.com |
+| Application Running on EC2 | ✅ Complete | http://ec2-52-23-164-222.compute-1.amazonaws.com |
+| App Screenshot | ✅ Complete | `docs/app-screenshot.png` |
 | Final Report | ✅ Complete | This document |
