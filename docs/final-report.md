@@ -7,7 +7,7 @@
 
 ### What is the Project?
 
-The **Contoso University** web application is a production-quality, open-source ASP.NET Core MVC application built on .NET 10. It serves as a university student and course management system, enabling administrators to manage students, instructors, courses, and departments through a web-based interface backed by a relational SQL database.
+The **Contoso University** web application is a production-quality, open-source ASP.NET Core MVC application built on .NET 10. It serves as a university student and course management system, enabling administrators to manage students, instructors, courses, and departments through a web-based interface backed by a relational SQL Server database.
 
 ### Problem It Solves
 
@@ -24,22 +24,30 @@ The DevOps challenge this project solved was automating the full lifecycle from 
 
 ## 2. Live Application URL
 
-**EC2 Endpoint:** http://ec2-54-90-130-47.compute-1.amazonaws.com
+**EC2 Endpoint:** http://ec2-54-210-180-179.compute-1.amazonaws.com
 
-The application is deployed to AWS EC2 (us-east-1) via automated Terraform provisioning triggered by the Release to AWS GitHub Actions pipeline.
+The application is deployed to AWS EC2 (us-east-1) via automated Terraform provisioning triggered by the Release to AWS GitHub Actions pipeline. The application runs as two Docker containers:
+- `mcr.microsoft.com/mssql/server:2022-latest` — SQL Server database
+- `ethantrent/netcore-contoso-university:latest` — ASP.NET Core MVC web app
 
 ---
 
 ## 3. Screenshot of Application Running
 
-The application runs as a Docker container on AWS EC2, serving the Contoso University MVC interface on port 80. The pipeline run confirming successful deployment is available at:
+The application is successfully running and accessible at http://ec2-54-210-180-179.compute-1.amazonaws.com
 
-https://github.com/byui-devops/netcore-app-groupA-final/actions?query=workflow%3A%22Release+to+AWS%22
+![Application Home Page](https://raw.githubusercontent.com/byui-devops/netcore-app-groupA-final/main/ITM-350.png)
 
-![Build Pipeline Success](https://img.shields.io/badge/Build%20Pipeline-Passing-brightgreen)
-![Release Pipeline Success](https://img.shields.io/badge/Release%20Pipeline-Passing-brightgreen)
+**Application Pages Verified:**
+- ✅ Home Page — http://ec2-54-210-180-179.compute-1.amazonaws.com/
+- ✅ Students List — http://ec2-54-210-180-179.compute-1.amazonaws.com/ContosoUniversity/List (shows seeded student data)
+- ✅ Navigation — Contoso University dropdown with Students, Statistics, About
 
-> **Note:** Screenshot of the live application at http://ec2-54-90-130-47.compute-1.amazonaws.com — the application serves the ASP.NET Core Contoso University interface including Students, Courses, Departments, and Instructors management pages.
+The Students page successfully loads seeded data from the SQL Server database including student names, enrollment dates, and government IDs — confirming the full database connection is working.
+
+**Build & Release Pipeline Proof:**
+- Build Pipeline: https://github.com/byui-devops/netcore-app-groupA-final/actions?query=workflow%3A%22Build%2C+Test+%26+Push%22
+- Release Pipeline: https://github.com/byui-devops/netcore-app-groupA-final/actions?query=workflow%3A%22Release+to+AWS%22
 
 ---
 
@@ -62,7 +70,7 @@ netcore-app-groupA-final/
 │   ├── NetCoreContosoUniversityApp.Tests/       # Unit tests (xUnit)
 │   └── NetCoreContosoUniversityApp.IntegrationTests/  # Integration tests
 ├── terraform/
-│   ├── main.tf                # EC2 + security group IaC
+│   ├── main.tf                # EC2 + security group + Docker IaC
 │   ├── variables.tf           # Input variables
 │   └── outputs.tf             # EC2 URL outputs
 └── Dockerfile                 # Multi-stage build
@@ -122,7 +130,8 @@ All AWS infrastructure is defined in the `terraform/` directory and provisioned 
 
 **Terraform Resources:**
 - `aws_security_group` — Opens port 80 (HTTP) and 22 (SSH)
-- `aws_instance` — t2.micro EC2, runs Docker container from Docker Hub image on boot
+- `aws_instance` — t2.medium EC2, runs SQL Server + app containers from Docker Hub images on boot
+- `user_data_replace_on_change = true` — Forces EC2 replacement on any configuration change
 
 ---
 
@@ -134,8 +143,8 @@ Running Terraform in a stateless CI environment (GitHub Actions) without a remot
 ### 2. EC2 user_data Only Runs Once at Launch
 AWS EC2 user_data scripts only execute on the first boot of an instance. When Terraform imported an existing EC2 instance and made no changes, the Docker container from user_data was never re-run. Adding `user_data_replace_on_change = true` to the Terraform resource forces Terraform to destroy and recreate the instance when user_data changes — ensuring a fresh, clean deployment every time.
 
-### 3. Docker Port Mapping Requires Matching Application Configuration
-The ASP.NET Core application must be configured to listen on the same port that Docker maps externally. Setting `ENV ASPNETCORE_URLS=http://+:80` in the Dockerfile ensures the app binds to port 80, matching the `-p 80:80` Docker run mapping. A mismatch between these causes connection refused errors even when the container is running.
+### 3. Applications with Database Dependencies Need Sidecar Containers
+The ASP.NET Core application required a SQL Server database to start. Without a database, the app threw an `InvalidOperationException` at startup and refused to serve any requests. The solution was to run two Docker containers — SQL Server and the app — on the same Docker network inside the EC2 instance, passing the connection string as an environment variable. This is the foundation of Docker Compose patterns in production.
 
 ### 4. Branch Protection Requires Organization Admin Permissions
 Setting up branch protection rules (requiring pull requests before merging to `main`) requires organization admin privileges. As a repository contributor rather than org admin, this setting was not configurable through the UI. In a professional environment, requesting admin rights or working with the org owner to enable protection rules would be the first step in a DevOps engagement.
@@ -156,9 +165,10 @@ Defining the entire AWS environment in Terraform (EC2 instance type, security gr
 | Unit Tests | ✅ Complete | `src/NetCoreContosoUniversityApp.Tests/` — xUnit |
 | Integration Tests (5) | ✅ Complete | `src/NetCoreContosoUniversityApp.IntegrationTests/` |
 | Docker Image on Docker Hub | ✅ Complete | `ethantrent/netcore-contoso-university:latest` |
-| Build Pipeline (CI) | ✅ Complete | `.github/workflows/build.yml` — 15+ runs |
+| Build Pipeline (CI) | ✅ Complete | `.github/workflows/build.yml` — 19+ runs |
 | Release Pipeline (CD) | ✅ Complete | `.github/workflows/release.yml` — auto-triggered |
 | IaC in Release Pipeline | ✅ Complete | Terraform provisions EC2 + SG on AWS |
 | No Manual AWS Login | ✅ Complete | All credentials stored as GitHub Secrets |
 | Feature Branches & PRs | ✅ Complete | PR #3 and PR #4 merged to main |
+| Application Running on EC2 | ✅ Complete | http://ec2-54-210-180-179.compute-1.amazonaws.com |
 | Final Report | ✅ Complete | This document |
