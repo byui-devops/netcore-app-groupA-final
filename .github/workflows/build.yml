@@ -27,7 +27,7 @@ jobs:
 
       - name: Run unit tests
         run: |
-          dotnet test src/Testing/NetCoreContosoUniversityApp.Testing.Unit.Services/NetCoreContosoUniversityApp.Testing.Unit.Services.csproj \
+          dotnet test src/Testing/NetCoreContosoUniversityApp.Testing.Unit/NetCoreContosoUniversityApp.Testing.Unit.csproj \
             --configuration Release \
             --logger "trx;LogFileName=unit-results.trx"
 
