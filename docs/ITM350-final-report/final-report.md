@@ -1,3 +1,26 @@
+- [ITM 350 Final Project Report](#itm-350-final-project-report)
+  - [Group A | Ethan Trent, Carlos Mercado | April 2026 |](#group-a--ethan-trent-carlos-mercado--april-2026-)
+  - [1. Project Description](#1-project-description)
+    - [What is the Project?](#what-is-the-project)
+    - [Problem It Solves](#problem-it-solves)
+  - [2. Live Application URL](#2-live-application-url)
+  - [3. Screenshot of Application Running](#3-screenshot-of-application-running)
+  - [4. Codebase URL](#4-codebase-url)
+    - [Repository Structure](#repository-structure)
+  - [5. Docker Hub Image URL](#5-docker-hub-image-url)
+  - [6. Build Pipeline](#6-build-pipeline)
+  - [7. Release Pipeline with Infrastructure as Code](#7-release-pipeline-with-infrastructure-as-code)
+  - [8. Lessons Learned](#8-lessons-learned)
+    - [1. Terraform State Management in CI/CD is Complex](#1-terraform-state-management-in-cicd-is-complex)
+    - [2. EC2 user_data Only Runs Once at Launch](#2-ec2-user_data-only-runs-once-at-launch)
+    - [3. Applications with Database Dependencies Need Sidecar Containers](#3-applications-with-database-dependencies-need-sidecar-containers)
+    - [4. Branch Protection Requires Organization Admin Permissions](#4-branch-protection-requires-organization-admin-permissions)
+    - [5. Automated Testing in CI Catches Regressions Early](#5-automated-testing-in-ci-catches-regressions-early)
+    - [6. Infrastructure as Code Enables Reproducible Deployments](#6-infrastructure-as-code-enables-reproducible-deployments)
+  - [Summary](#summary)
+
+---
+
 # ITM 350 Final Project Report
 
 ## Group A | Ethan Trent, Carlos Mercado | April 2026 |
@@ -8,7 +31,7 @@
 
 ### What is the Project?
 
-The **Contoso University** web application is a production-quality, open-source ASP.NET Core MVC application built on .NET 10. It serves as a university student and course management system, enabling administrators to manage students, instructors, courses, and departments through a web-based interface backed by a relational SQL Server database.
+The **Contoso University** web application is a production-quality, open-source ASP\.NET Core MVC application built on .NET 10. It serves as a university student and course management system, enabling administrators to manage students, instructors, courses, and departments through a web-based interface backed by a relational SQL Server database.
 
 ### Problem It Solves
 

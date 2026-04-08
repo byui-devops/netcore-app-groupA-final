@@ -35,29 +35,29 @@
 Build pipeline, then release pipeline.
 
 1. Repository & Source Control Setup
-   1. Implement branching strategies
-   2. Conduct code reviews (PR)
+   1. Implement branching strategies ✅
+   2. Conduct code reviews (PR) ✅
 2. Project Initialization ✅
    1. From template project:
       1. Use <https://github.com/carloswm85/dotnet-template-kit/tree/dev-netcore10-lightweight>
 3. Containerization (Docker)
-   1. Create `Dockerfile`
-   2. Pushed to Docker Hub
+   1. Create `Dockerfile` ✅
+   2. Pushed to Docker Hub ✅
 4. Testing Strategy (Quality Assurance, by level). Automated testing.
-   1. Unit - **Required** ⌛
-   2. Integration - **Required**
+   1. Unit - **Required**  ✅
+   2. Integration - **Required** ✅
       1. What is it? Is it made on API and DB?
    3. System - **Not Required**
 5. CI Pipeline (Build Automation)
    1. Using `GitHub Actions`
    2. Trigger the whole build process on PR or push: Restore dependencies, Build project, Run tests, Fail pipeline on errors
 6. Docker Hub Integration
-   - Create Docker Hub repository
+   - Create Docker Hub repository ✅
    - Automate:
      - Build Docker image in CI
        - Push image to Docker Hub
    - Use secure credentials (GitHub Secrets)
-7. Infrastructure as Code (IaC)
+7. Infrastructure as Code (IaC) ✅
    1. Run in the release pipeline.
    2. Define AWS infrastructure:
       - EC2 instance
