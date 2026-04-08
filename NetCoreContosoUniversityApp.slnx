@@ -1,7 +1,7 @@
 <Solution>
   <Folder Name="/Testing/">
     <Project Path="src/Testing/NetCoreContosoUniversityApp.Testing.Integration/NetCoreContosoUniversityApp.Testing.Integration.csproj" />
-    <Project Path="src/Testing/NetCoreContosoUniversityApp.Testing.Unit.Services/NetCoreContosoUniversityApp.Testing.Unit.Services.csproj" Id="21bbe400-dbd9-4fb6-9068-e07d58caf30b" />
+    <Project Path="src/Testing/NetCoreContosoUniversityApp.Testing.Unit.Services/NetCoreContosoUniversityApp.Testing.Unit.csproj" Id="21bbe400-dbd9-4fb6-9068-e07d58caf30b" />
   </Folder>
   <Project Path="src/NetCoreContosoUniversityApp.Data/NetCoreContosoUniversityApp.Data.csproj" />
   <Project Path="src/NetCoreContosoUniversityApp.Repository/NetCoreContosoUniversityApp.Repository.csproj" />
