@@ -1,4 +1,5 @@
-﻿using NetCoreContosoUniversityApp.Data.Datum;
+﻿using Microsoft.EntityFrameworkCore;
+using NetCoreContosoUniversityApp.Data.Datum;
 using NetCoreContosoUniversityApp.Data.Model;
 using NetCoreContosoUniversityApp.Repository;
 using NetCoreContosoUniversityApp.Service.Mappings.ContosoUniversity;
@@ -6,7 +7,6 @@ using NetCoreContosoUniversityApp.Service.Services.ExampleServices;
 using NetCoreContosoUniversityApp.Service.Services.ExampleServices.Interfaces;
 using NetCoreContosoUniversityApp.Web.MVC.Services;
 using NetCoreContosoUniversityApp.Web.MVC.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace NetCoreContosoUniversityApp.Web.MVC;
 

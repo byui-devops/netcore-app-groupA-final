@@ -1,6 +1,6 @@
-﻿using NetCoreContosoUniversityApp.Web.MVC.Models.ViewModels.WeatherForecast;
+﻿using Microsoft.AspNetCore.Mvc;
+using NetCoreContosoUniversityApp.Web.MVC.Models.ViewModels.WeatherForecast;
 using NetCoreContosoUniversityApp.Web.MVC.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 
 namespace NetCoreContosoUniversityApp.Web.MVC.Controllers.ExampleControllers;
 

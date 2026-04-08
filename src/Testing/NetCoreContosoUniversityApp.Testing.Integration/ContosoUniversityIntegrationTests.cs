@@ -1,10 +1,12 @@
-using Microsoft.AspNetCore.Mvc.Testing;
 using FluentAssertions;
+using Microsoft.AspNetCore.Mvc.Testing;
+using NetCoreContosoUniversityApp.Web.MVC;
+using Xunit;
+
 
 namespace NetCoreContosoUniversityApp.Testing.Integration;
 
-public class ContosoUniversityIntegrationTests
-    : IClassFixture<WebApplicationFactory<Program>>
+public class ContosoUniversityIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly HttpClient _client;
 
@@ -17,40 +19,56 @@ public class ContosoUniversityIntegrationTests
     [Fact]
     public async Task HomePage_ReturnsSuccessStatusCode()
     {
-        var response = await _client.GetAsync("/");
+        var response = await _client.GetAsync("/", TestContext.Current.CancellationToken);
         response.IsSuccessStatusCode.Should().BeTrue(
-            because: "the home page should be reachable");
+            because: "The home page should be reachable");
     }
 
     [Fact]
-    public async Task StudentsPage_ReturnsSuccessStatusCode()
+    public async Task StudentsListPage_ReturnsSuccessStatusCode()
     {
-        var response = await _client.GetAsync("/Students");
+        var response = await _client.GetAsync("/ContosoUniversity/List", TestContext.Current.CancellationToken);
         response.IsSuccessStatusCode.Should().BeTrue(
-            because: "the students listing page should be reachable");
+            because: "The students listing page should be reachable");
     }
 
     [Fact]
-    public async Task CoursesPage_ReturnsSuccessStatusCode()
+    public async Task StudentsStatistics_ReturnsSuccessStatusCode()
     {
-        var response = await _client.GetAsync("/Courses");
+        var response = await _client.GetAsync("/ContosoUniversity/Statistics", TestContext.Current.CancellationToken);
         response.IsSuccessStatusCode.Should().BeTrue(
-            because: "the courses listing page should be reachable");
+            because: "The student statistics page should be reachable");
     }
 
     [Fact]
-    public async Task InstructorsPage_ReturnsSuccessStatusCode()
+    public async Task NewStudentCreation_ReturnsSuccessStatusCode()
     {
-        var response = await _client.GetAsync("/Instructors");
+        var response = await _client.GetAsync("/ContosoUniversity/Create", TestContext.Current.CancellationToken);
         response.IsSuccessStatusCode.Should().BeTrue(
-            because: "the instructors listing page should be reachable");
+            because: "The student creation page should be reachable");
     }
 
     [Fact]
-    public async Task DepartmentsPage_ReturnsSuccessStatusCode()
+    public async Task SelectedStudentDetails_ReturnsSuccessStatusCode()
     {
-        var response = await _client.GetAsync("/Departments");
+        var response = await _client.GetAsync("/ContosoUniversity/Details/40", TestContext.Current.CancellationToken);
         response.IsSuccessStatusCode.Should().BeTrue(
-            because: "the departments listing page should be reachable");
+            because: "The student details page should be reachable");
+    }
+
+    [Fact]
+    public async Task SelectedStudentDelete_ReturnsSuccessStatusCode()
+    {
+        var response = await _client.GetAsync("/ContosoUniversity/Delete/40", TestContext.Current.CancellationToken);
+        response.IsSuccessStatusCode.Should().BeTrue(
+            because: "The student delete page should be reachable");
+    }
+
+    [Fact]
+    public async Task SelectedStudentEdit_ReturnsSuccessStatusCode()
+    {
+        var response = await _client.GetAsync("/ContosoUniversity/Edit/40", TestContext.Current.CancellationToken);
+        response.IsSuccessStatusCode.Should().BeTrue(
+            because: "The student edit page should be reachable");
     }
 }

@@ -1,7 +1,7 @@
-﻿using NetCoreContosoUniversityApp.Data.Model;
-using NetCoreContosoUniversityApp.Repository;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using NetCoreContosoUniversityApp.Data.Model;
+using NetCoreContosoUniversityApp.Repository;
 
 public class StoredProcedureRepository<TEntity> : IStoredProcedureRepository<TEntity>
     where TEntity : class

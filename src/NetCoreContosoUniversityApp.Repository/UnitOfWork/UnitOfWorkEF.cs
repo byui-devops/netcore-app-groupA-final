@@ -1,5 +1,5 @@
-﻿using NetCoreContosoUniversityApp.Data.Model;
-using Microsoft.EntityFrameworkCore.Storage;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+using NetCoreContosoUniversityApp.Data.Model;
 
 namespace NetCoreContosoUniversityApp.Repository
 {

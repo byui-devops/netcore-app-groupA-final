@@ -1,8 +1,8 @@
-﻿using NetCoreContosoUniversityApp.Data.Constants;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using NetCoreContosoUniversityApp.Data.Constants;
 using NetCoreContosoUniversityApp.Data.Model;
 using NetCoreContosoUniversityApp.Data.Model.ContosoUniversity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace NetCoreContosoUniversityApp.Data.Datum;
 

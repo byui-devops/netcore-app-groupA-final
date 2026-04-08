@@ -144,3 +144,8 @@ healthchecksdb
 # Ignore all local history of files
 .history
 .ionide
+
+### SOLUTION LEVELS
+
+## MVC Layer
+/src/NetCoreContosoUniversityApp.Web.MVC/wwwroot/images/students
