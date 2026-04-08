@@ -9,6 +9,10 @@
 
 ---
 
+> THE CONTENT ON THIS FOLDER WAS GENERATED USING A DOTNET TEMPLATE
+>
+> Some projects mentioned in this README file may be missing.
+
 | #   | STATUS                                                                |
 | --- | --------------------------------------------------------------------- |
 | 1   | This is a **UNDER DEVELOPMENT** .NET Core 10 and Angular 20 solution. |
