@@ -7,9 +7,9 @@ using NetCoreContosoUniversityApp.Service.Dtos.ContosoUniversity;
 using NetCoreContosoUniversityApp.Service.Services.ExampleServices;
 using Xunit;
 
-namespace NetCoreContosoUniversityApp.Testing.Unit.Services;
+namespace NetCoreContosoUniversityApp.Testing.Unit.Services.Services;
 
-public class ContosoUniversityServiceTests
+public class ContosoUniversityServiceUnitTests
 {
     [Fact]
     public async Task GetStudentAsync_AsNoTracking_ReturnsMappedStudentDto()
