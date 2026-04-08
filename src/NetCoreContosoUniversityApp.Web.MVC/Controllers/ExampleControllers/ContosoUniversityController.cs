@@ -1,11 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NetCoreContosoUniversityApp.Data.Model;
 using NetCoreContosoUniversityApp.Service.Dtos.ContosoUniversity;
 using NetCoreContosoUniversityApp.Service.Models;
 using NetCoreContosoUniversityApp.Service.Services.ExampleServices.Interfaces;
 using NetCoreContosoUniversityApp.Web.MVC.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace NetCoreContosoUniversityApp.Web.MVC.Controllers.ExampleControllers;
 

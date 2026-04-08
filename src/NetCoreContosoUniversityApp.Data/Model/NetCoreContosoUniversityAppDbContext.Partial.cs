@@ -1,5 +1,5 @@
-﻿using NetCoreContosoUniversityApp.Data.Model.ContosoUniversity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using NetCoreContosoUniversityApp.Data.Model.ContosoUniversity;
 
 namespace NetCoreContosoUniversityApp.Data.Model;
 

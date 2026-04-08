@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using NetCoreContosoUniversityApp.Data.Model;
 using NetCoreContosoUniversityApp.Repository;
 using NetCoreContosoUniversityApp.Service.Dtos.ContosoUniversity;
 using NetCoreContosoUniversityApp.Service.Models;
 using NetCoreContosoUniversityApp.Service.Services.ExampleServices.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace NetCoreContosoUniversityApp.Service.Services.ExampleServices
 {
