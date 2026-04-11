@@ -73,7 +73,7 @@ The application is successfully running and accessible. The screenshot below sho
 
 The Students page successfully loads seeded data from the SQL Server database including student names, enrollment dates, and government IDs — confirming the full database connection is working.
 
-![Student list](.\app-list-screenshot.png)
+![Student list](./app-list-screenshot.png)
 
 **Build & Release Pipeline Proof:**
 
