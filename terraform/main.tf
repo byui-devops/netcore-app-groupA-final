@@ -26,7 +26,7 @@ data "aws_ami" "amazon_linux_2023" {
 }
 
 resource "aws_security_group" "app_sg" {
-  name        = "contoso-university-sg"
+  name        = "launch-wizard-5"
   description = "Allow HTTP and SSH"
   ingress {
     description = "HTTP"
@@ -49,7 +49,7 @@ resource "aws_security_group" "app_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
-    Name = "contoso-university-sg"
+    Name = "launch-wizard-5"
   }
 }
 
