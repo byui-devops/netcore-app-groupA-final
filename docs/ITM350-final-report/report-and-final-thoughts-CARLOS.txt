@@ -1,0 +1,15 @@
+- Detailed description of your project and the problem that it is solving
+	DETAILED REPORT: https://github.com/byui-devops/netcore-app-groupA-final/blob/main/docs/ITM350-final-report/final-report.md
+- URL of your EC2 where your application is successfully running
+	http://ec2-98-84-151-209.compute-1.amazonaws.com/ContosoUniversity/Details/40
+- Screenshot of your application successfully running
+	The ones in the report were taken by my Ethan 4 days ago
+	This is the one I took when I run it using my own EC2 instance: https://i.imgur.com/0X4XX2J.png
+URL of your code base
+	https://github.com/byui-devops/netcore-app-groupA-final/tree/main
+URL of your docker image in docker hub
+	https://hub.docker.com/r/ethantrent/netcore-contoso-university
+Lessons Learned
+	1. AWS can be really complicated to understand at first
+	2. AI is a blessing when understanding DevOps technologies
+	3. Once you learn it, life gets easier :D
