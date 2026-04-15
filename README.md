@@ -26,8 +26,9 @@
 # ITM350 - IT Management and DevOps
 
 - Winter 2026
-- Student: Carlos Mercado
+- Students: [Carlos Mercado](https://github.com/carloswm85) and [Ethan Trent](https://github.com/ethantrent)
 - Instructor: [Matthew Jensen](https://www.linkedin.com/in/matthewfjensen/)
+- Original repository: <https://github.com/byui-devops/netcore-app-groupA-final>
 
 ---
 
